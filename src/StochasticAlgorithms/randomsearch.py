@@ -1,5 +1,5 @@
 '''
-Created on July 8, 2017
+Created on Jul 8, 2017
 @author: Sai Panyam
 
 Credits
