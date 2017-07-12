@@ -49,7 +49,6 @@ def stochasticHillClimbing(problemSize, maxIterations):
     candidate = {}
     candidate['vector'] = randomSolution(problemSize)
     initialCost = candidate['cost'] = oneMax(candidate['vector'])
-    print("INitial --> prog Strat"+str(initialCost))
     # initial cost is used for calculating search efficiency later. This doesn't take part in the algorithm
     iterCount = 0
     while iterCount < maxIterations:
