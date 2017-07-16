@@ -8,15 +8,12 @@ class TSPResult(object):
     Class that takes a result from a search algorithm for TSP and prints
     the result and efficacy
     '''
-
-
     def __init__(self, optimalTourCost,searchAlgorithm):
         '''
         Constructor
         '''
         self.OptimalTourCost = optimalTourCost
         self.Algorithm = searchAlgorithm
-
     def FormattedOutput(self, result):
         '''
         Calculates the efficacy of the search from the passed in result object,
@@ -45,23 +42,17 @@ class TSPResult(object):
                 + str(efficacy) + "\n"\
                 + divider + "\n"\
                 + divider + "\n"
-
         return final
-
-
 class BasinResult(object):
     '''
     Class that takes a result from a search algorithm for optimal basin function and prints
     the result and efficacy
     '''
-
-
     def __init__(self,searchAlgorithm):
         '''
         Constructor
         '''
         self.Algorithm = searchAlgorithm
-
     def FormattedOutput(self, result):
         '''
         Outputs the input values for the basin function that minimizes the cost and also the optimal cost.
@@ -73,7 +64,6 @@ class BasinResult(object):
 
         basinHeader = "Optimal Basin Function Value"
         basinValue = round(result["cost"],5)
-
         final = divider + "\n"\
                 + name + "\n"\
                 + divider + "\n"\

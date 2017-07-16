@@ -28,38 +28,38 @@ apply SHC to continuous functions, we need to define a step size to identify nei
 got from other search techniques specifically global optimizations. We can also use this on multiple candidate solutions as a starting point.
 '''
 import random
-def randomSolution(size):
-    bitString = []
-    while size > 0:
-        if random.random() < 0.5:
-            bitString.append('1')
-        else:
-            bitString.append('0')
-        size -= 1
-    return bitString
 def oneMax(vector):
-    return vector.count('1')
+    return vector.count("1")
+def randomSolution(size):
+    bitstring = []
+    while size>0:
+        if random.random()<0.5:
+            bitstring.append("1")
+        else:
+            bitstring.append("0")
+        size -=1
+    return bitstring
 def randomNeighbhor(vector):
-    mutant = vector# make a copy of the vector to a mutant
-    pos = random.randrange(0, len(vector)) # gets a random position 0<= pos < length of the original list
-    if mutant[pos] == '0':
-        mutant[pos] = '1'
+    mutant = vector[:] # make a copy of the vector to a mutant
+    # mutate
+    pos = random.randrange(0,len(vector))# gets a random position 0<= pos < length of the original list
+    if mutant[pos]== "0" : mutant[pos]="1"
     return mutant
-def stochasticHillClimbing(problemSize, maxIterations):
-    candidate = {}
-    candidate['vector'] = randomSolution(problemSize)
-    initialCost = candidate['cost'] = oneMax(candidate['vector'])
+def stochasticHillClimbingSearch(problemSize, maxIterations):
+    candidate ={}
+    candidate["vector"] = randomSolution(problemSize)
+    initialCost = candidate["cost"] = oneMax(candidate["vector"])
     # initial cost is used for calculating search efficiency later. This doesn't take part in the algorithm
-    iterCount = 0
+    iterCount =0
     while iterCount < maxIterations:
-        mutant = {}
-        mutant['vector'] = randomNeighbhor(candidate["vector"])
-        mutant['cost'] = oneMax(mutant['vector'])
-        if  mutant['cost'] >= candidate['cost']: # Note here we are looking for optimizing the maximum!
+        mutant ={}
+        mutant["vector"] = randomNeighbhor(candidate["vector"])
+        mutant["cost"] = oneMax(mutant["vector"])
+        if  mutant["cost"] >= candidate["cost"]: # Note here we are looking for optimizing the maximum!
             candidate = mutant
-        if candidate['cost'] == problemSize:
+        if candidate["cost"] == problemSize:
             break
-        iterCount += 1
-    candidate['initialCost']= initialCost
-    candidate['iteration'] = iterCount
+        iterCount +=1
+    candidate["initialCost"]= initialCost
+    candidate["iteration"] = iterCount
     return candidate

@@ -19,50 +19,54 @@ The strategy is to trial a larger step in each iteration and adopt the larger st
 The strategy of preferring large moves is intended to allow the technique to escape local optima. Smaller  step sizes are adopted
 if no improvements is made for an extended period.
 '''
-from Helpers.Utilities import randomSolution,basinFunction,takeStep
+from Helpers.Utilities import basinFunction, randomSolution, takeStep
+
 # Function to initialize step size
-def getInitialStepSize(bounds,initFactor):
-    return (bounds[1]-bounds[0]) * initFactor
+def getInitialStepSize(bounds, initFactor):
+    return (bounds[1] - bounds[0]) * initFactor
+
 # Function to generate the large step size
-def getLargeStepSize(iteration,stepSize,largeFactor,smallFactor,iterationFactor):
-    if iteration > 0 or iteration % iterationFactor == 0:
+def getLargeStepSize(iteration,stepSize, largeFactor, smallFactor, iterationFactor):
+    if iteration > 0 or iteration % iterationFactor==0:
         return stepSize * largeFactor
     else:
         return stepSize * smallFactor
+
 # Search algorithm that implements the Adaptive Random Search strategy
-def adaptiveRandomSearch(searchSpace,maxIterations,problemSize,initStepSizeFactor,largeStepSizeFactor,smallStepSizeFactor,iterationStepSizeFactor,maxNoChange):
-    # Initialize no change counter
-    noChangeCount = 0
+def adaptiveRandomsearch(maxIterations, problemSize, searchSpace, initStepSizeFactor, smallStepSizeFactor, largeStepSizeFactor, iterationStepSizeFactor, maxNoChange):
+    # Initialize the no change counter
+    noChangeCount =0
     # Initialize the step size
     currentStepSize = getInitialStepSize(searchSpace, initStepSizeFactor)
-    current = {}
-    current['vector'] = randomSolution(searchSpace,problemSize)
-    current['cost'] = basinFunction(current['vector'])
+    current ={}
+    current["vector"] = randomSolution(searchSpace, problemSize)
+    current["cost"] = basinFunction(current["vector"])
     for index in range(0,maxIterations):
         # Get cost from currentCandidate step size
         step ={}
-        step['vector'] = takeStep(searchSpace,current['vector'],currentStepSize)
-        step['cost'] = basinFunction(step['vector'])
+        step["vector"] = takeStep(searchSpace, current["vector"], currentStepSize)
+        step["cost"] = basinFunction(step["vector"])
+
         # Get large step size
         largeStepSize = getLargeStepSize(index, currentStepSize, largeStepSizeFactor, smallStepSizeFactor, iterationStepSizeFactor)
         # Get cost from currentCandidate large step size
-        largeStep = {}
-        largeStep['vector'] = takeStep(searchSpace,current['vector'],largeStepSize)
-        largeStep['cost'] = basinFunction(largeStep['vector'])
-        # Compare costs 
+        largeStep ={}
+        largeStep["vector"] = takeStep(searchSpace, current["vector"], largeStepSize)
+        largeStep["cost"] = basinFunction(largeStep["vector"])
+
+        # Compare costs
         # Identify no change
-        if step['cost']<current['cost'] or largeStep['cost']<current['cost']:
+        if step["cost"]<current["cost"] or largeStep["cost"]<current["cost"]:
             # if either of the new costs are 'better' then we proceed in that direction
-            if largeStep['cost'] < step['cost']:
-                currentStepSize =largeStepSize
+            if largeStep["cost"]<step["cost"]:
+                currentStepSize = largeStepSize
                 current = largeStep
             else:
                 current = step
-        else:
-            # if not then dont improve the result
-            noChangeCount += 1;
+        else:# if not then we did not improve the result and are plateauing so to speak
+            noChangeCount +=1
             if noChangeCount > maxNoChange:
-                noChangeCount = 0
+                noChangeCount =0
                 # adjust step size so that we take smaller steps
-                currentStepSize = currentStepSize / smallStepSizeFactor
+                currentStepSize = currentStepSize/smallStepSizeFactor
     return current

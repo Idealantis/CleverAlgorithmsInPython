@@ -1,5 +1,5 @@
 '''
-Created on July 12, 2017
+Created on July 12, 2011
 @author: Sai Panyam
 
 Credits
@@ -44,8 +44,8 @@ def perturbation(best, searchHistory):
     # uses a 'double bridge move' for perturbation
     # We can extend perturbation by incorporating search history if need be.
     candidate = {}
-    candidate['permutation'] = doubleBridgeMove(best['permutation'])
-    candidate['cost'] = tourCost(candidate['permutation'])
+    candidate["permutation"] = doubleBridgeMove(best["permutation"])
+    candidate["cost"] = tourCost(candidate["permutation"])
     return candidate
 #The double-bridge move involves partitioning a permutation into 4 pieces
 #(a,b,c,d) and putting it back together in a specific and jumbled ordering
@@ -63,22 +63,24 @@ def doubleBridgeMove(perm):
 def localSearch(best, maxIter):
     while maxIter>0:
         candidate ={}
-        candidate['permutation'] = stochasticTwoOpt(best['permutation'])
-        candidate['cost'] = tourCost(candidate['permutation'])
-        if candidate['cost'] < best['cost']:
+        candidate["permutation"] = stochasticTwoOpt(best["permutation"])
+        candidate["cost"] = tourCost(candidate["permutation"])
+        if candidate["cost"] < best["cost"]:
             best = candidate
         maxIter -=1
+
     return best
+
 def acceptanceCriterion(best, candidate, searchHistory):
     # Here we can incorporate search history if need be
-    if candidate['cost'] < best['cost']:
+    if candidate["cost"] < best["cost"]:
             best = candidate
     return best
 def iteratedLocalSearch(points, maxIterations, maxNoImprove, maxSearchHistory):
     # First construct the initial solution. We use a random permutation as the initial solution
     best ={}
-    best['permutation'] = constructInitialSolution(points)
-    best['cost'] = tourCost(best['permutation'])
+    best["permutation"] = constructInitialSolution(points)
+    best["cost"] = tourCost(best["permutation"])
     # now refine this using a local search for getting to the local optima
     best = localSearch(best, maxNoImprove)
     # One can incorporate search history for either diversification or intensification
