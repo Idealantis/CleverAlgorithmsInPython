@@ -87,3 +87,17 @@ class runTests:
         result = iteratedLocalSearch(self.TSPLIB, maxIterations, maxNoImprove,searchHistoryToKeep)
         tspResult = TSPResult(7542,'Iterated Local Search Results')
         print(tspResult.FormattedOutput(result))
+    def testGuidedLocalSearch(self):
+        from StochasticAlgorithms.guidedLocalSearch import guidedLocalSearch
+        # Problem Configuration
+        # Use Berlin52 instance of TSPLIB
+        # Algorithm Configuration
+        maxIterations = 150
+        maxNoImprove = 50
+        localSearchOptima = 12000.0
+        alpha = 0.3
+        scalingFactor = alpha * (localSearchOptima/float(len(self.TSPLIB)))
+        # execute the algorithm
+        result = guidedLocalSearch(self.TSPLIB,maxIterations,maxNoImprove,scalingFactor)
+        tspResult = TSPResult(7542,'Guided Local Search Results')
+        print(tspResult.FormattedOutput(result))

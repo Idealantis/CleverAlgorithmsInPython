@@ -28,7 +28,7 @@ def takeStep(bounds,currentInput,stepSize):
 # Function that creates a random permutation from an initial permutation by shuffling the elements in to a random order
 def constructInitialSolution(initPerm):
     #Randomize the initial permutation
-    permutation = initPerm[:] # make a copy of the initial permutation
+    permutation = initPerm # make a copy of the initial permutation
     size = len(permutation)
     for index in range(size):
         # shuffle the values of the initial permutation randomly
@@ -86,4 +86,3 @@ def stochasticTwoOpt(perm):
     # now reverse the tour segment between p1 and p2
     result[p1:p2] = reversed(result[p1:p2])
     return result
-
