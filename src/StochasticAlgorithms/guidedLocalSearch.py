@@ -41,7 +41,6 @@ def augmentedCost(perm, penalties, scalingFactor):
             index2 = 0
         else:
             index2 = index +1
-
         if index2<index1:
             index1,index2 = index2, index1
         v1 = perm[index1]
@@ -51,8 +50,8 @@ def augmentedCost(perm, penalties, scalingFactor):
         augmented +=d + (scalingFactor * penalties[index1][index2])
     return distance, augmented
 def cost(candidate, penalties,scalingFactor):
-    cost, augCost = augmentedCost(candidate['permutation'], penalties, scalingFactor)
-    candidate['cost'], candidate['augmentedCost'] = cost, augCost
+    cost, augCost = augmentedCost(candidate["permutation"], penalties, scalingFactor)
+    candidate["cost"], candidate["augmentedCost"] = cost, augCost
 def calculateFeatureUtilities(perm, penalties):
     size = len(perm)
     utilities = [0] * size
@@ -90,21 +89,20 @@ def localSearch(current, scalingFactor, penalties, maxNoImprove):
     count =0
     while count < maxNoImprove:
         candidate = {}
-        candidate['permutation'] = stochasticTwoOpt(current['permutation'])
+        candidate["permutation"] = stochasticTwoOpt(current["permutation"])
         cost(candidate,penalties,scalingFactor)
         # Now we encourage diversification by aiming for a 'larger' augmented cost to escape local minima
-        if candidate['augmentedCost'] < current['augmentedCost']:
+        if candidate["augmentedCost"] < current["augmentedCost"]:
             # reset the counter to restart the search
             count =0
             current = candidate
         else:
             count +=1
-
     return current
 def guidedLocalSearch(points, maxIterations, maxNoImprove, scalingFactor):
     # Create a random solution
     current ={}
-    current['permutation'] = constructInitialSolution(points)
+    current["permutation"] = constructInitialSolution(points)
     best = None
     # Initialize penalties. We create a list of lists. Each element of penalties is a list of penalties for each point
     penalties = [[0] * len(points)] * len(points)
@@ -112,11 +110,11 @@ def guidedLocalSearch(points, maxIterations, maxNoImprove, scalingFactor):
         # Execute the local search taking into account lambda and penalties
         current = localSearch(current, scalingFactor, penalties, maxNoImprove)
         # Calculate feature utilities
-        utilities = calculateFeatureUtilities(current['permutation'], penalties)
+        utilities = calculateFeatureUtilities(current["permutation"], penalties)
         # Update feature penalties
-        penalties = updateFeaturePenalties(current['permutation'], penalties, utilities)
+        penalties = updateFeaturePenalties(current["permutation"], penalties, utilities)
         # Compare current candidate cost with best and update if less
-        if best==None or current['cost'] < best['cost']:
+        if best==None or current["cost"] < best["cost"]:
             best = current
         maxIterations -=1
     return best
