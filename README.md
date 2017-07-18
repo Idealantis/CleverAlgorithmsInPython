@@ -27,3 +27,8 @@ This README would normally document whatever steps are necessary to get your app
 
 * sai.panyam@idealantis.com
 * www.idealantis.com
+
+### Running The Algorithms ###
+* Navigate to src/Tests/
+* Run python -m pytest *testSuiteName.py*  -s 
+* *Note :* Make sure pytest is installed

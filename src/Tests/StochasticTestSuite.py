@@ -7,8 +7,8 @@ Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tes
 '''
 from Helpers.Utilities import basinFunction
 from ResultHelpers import TSPResult, BasinResult
-class runTests:
-    def __init__(self):
+class TestClass:
+    def setup_method(self):
         self.Vector = [1,2]
         # Problem Configuration
         berlin52 = [[565,575],[25,185],[345,750],[945,685],[845,655],
@@ -22,7 +22,9 @@ class runTests:
                     [830,610],[605,625],[595,360],[1340,725],[1740,245]
                    ]
         self.TSPLIB = berlin52
-    def testRandomSearch(self):
+    def teardown_method(self):
+        self.Vector = []
+    def test_RandomSearch(self):
         from StochasticAlgorithms.randomSearch import randomSearch
         # Problem Configuration
         searchVector = [-5,5]
@@ -34,7 +36,7 @@ class runTests:
         result = randomSearch(searchVector, iterations, size)
         basin = BasinResult('Random Search')
         print(basin.FormattedOutput(result))
-    def testAdaptiveRandomSearch(self):
+    def test_AdaptiveRandomSearch(self):
         from StochasticAlgorithms.adaptiveRandomSearch import adaptiveRandomsearch
         # Problem Configuration
         searchVector = [-5,5]
@@ -51,7 +53,7 @@ class runTests:
         result = adaptiveRandomsearch(maxIterations, size, searchVector, initFactor, sFactor, lFactor, iterFactor, maxNoChange)
         basin = BasinResult('Adaptive Random Search')
         print(basin.FormattedOutput(result))
-    def testStochasticHillClimbingSearch(self):
+    def test_StochasticHillClimbingSearch(self):
         from StochasticAlgorithms.stochasticHillClimbing import stochasticHillClimbingSearch
         # Problem Configuration
         numBits = 64
@@ -80,7 +82,7 @@ class runTests:
         print('*' * 20)
         efficacy = round(float(result["cost"] - result["initialCost"])/float(result["iteration"]),2)
         print(efficacy)
-    def testScatterSearch(self):
+    def test_ScatterSearch(self):
         from StochasticAlgorithms.scatterSearch import scatterSearch
         # Problem Configuration
         searchVector = [-5,5]
@@ -97,7 +99,7 @@ class runTests:
         basin = BasinResult("Scatter Search")
         print(basin.FormattedOutput(result))
     #@unittest.skip("Don't run FOR NOW!")
-    def testIteratedLocalSearch(self):
+    def test_IteratedLocalSearch(self):
         from StochasticAlgorithms.iteratedLocalSearch import iteratedLocalSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
@@ -110,7 +112,7 @@ class runTests:
         tspResult = TSPResult(7542,'Iterated Local Search Results')
         print(tspResult.FormattedOutput(result))
     #@unittest.skip("Don't run FOR NOW!")
-    def testVariableNeighborhoodSearch(self):
+    def test_VariableNeighborhoodSearch(self):
         from StochasticAlgorithms.variableNeighborhoodSearch import variableNeighborhoodSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
@@ -123,7 +125,7 @@ class runTests:
         tspResult = TSPResult(7542,'Variable Neighborhood Search Results')
         print(tspResult.FormattedOutput(result))
     #@unittest.skip("Don't run FOR NOW!")
-    def testGreedyRandomizedAdaptiveSearch(self):
+    def test_GreedyRandomizedAdaptiveSearch(self):
         from StochasticAlgorithms.greedyRandomizedAdaptiveSearch import greedyRandomizedAdaptiveSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
@@ -135,7 +137,7 @@ class runTests:
         result = greedyRandomizedAdaptiveSearch(self.TSPLIB,maxIterations, maxNoImprove, greedinessFactor)
         tspResult = TSPResult(7542,'Greedy Randomized Adaptive Search Results')
         print(tspResult.FormattedOutput(result))
-    def testTabuSearch(self):
+    def test_TabuSearch(self):
         from StochasticAlgorithms.tabuSearch import tabuSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
@@ -147,7 +149,7 @@ class runTests:
         result = tabuSearch(self.TSPLIB,maxIterations, maxTabuCount, maxCandidates)
         tspResult = TSPResult(7542,'Tabu Search Results')
         print(tspResult.FormattedOutput(result))
-    def testGuidedLocalSearch(self):
+    def test_GuidedLocalSearch(self):
         from StochasticAlgorithms.guidedLocalSearch import guidedLocalSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
@@ -161,7 +163,7 @@ class runTests:
         result = guidedLocalSearch(self.TSPLIB, maxIterations, maxNoImprove, scalingFactor)
         tspResult = TSPResult(7542,'Guided Local Search Results')
         print(tspResult.FormattedOutput(result))
-    def testReactiveTabuSearch(self):
+    def test_ReactiveTabuSearch(self):
         from StochasticAlgorithms.reactiveTabuSearch import reactiveTabuSearch
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
