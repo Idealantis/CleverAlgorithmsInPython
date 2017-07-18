@@ -7,9 +7,8 @@ Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tes
 '''
 from Helpers.Utilities import basinFunction
 from ResultHelpers import TSPResult, BasinResult
-import unittest
-class TestClass(unittest.TestCase):
-    def setUp(self):
+class TestClass:
+    def setup_method(self):
         self.Vector = [1,2]
         # Problem Configuration
         berlin52 = [[565,575],[25,185],[345,750],[945,685],[845,655],
@@ -23,7 +22,7 @@ class TestClass(unittest.TestCase):
                     [830,610],[605,625],[595,360],[1340,725],[1740,245]
                    ]
         self.TSPLIB = berlin52
-    def tearDown(self):
+    def teardown_method(self):
         self.Vector = []
     def test_RandomSearch(self):
         from StochasticAlgorithms.randomSearch import randomSearch

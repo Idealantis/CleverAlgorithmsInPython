@@ -1,5 +1,5 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
 **/.vscode/
 *.pyc
-**/src/Test/__pycache__/
-**/src/Test/.cache/
+**/src/Tests/__pycache__/
+**/src/Tests/.cache/
