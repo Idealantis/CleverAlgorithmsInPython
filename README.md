@@ -1,6 +1,8 @@
 # README #
+Clever Algorithms in Python (CAIP) is an extension of the body of knowledge started by Jason Browlee : [Clever Algorithms](http://www.cleveralgorithms.com/)
+Nature Inspired Programming Recipes. 
 
-This README would normally document whatever steps are necessary to get your application up and running.
+CAIP was started in 2006 with the intention of bringing this to Python. But this was prematurely abandoned because of time constraints. Now we have restarted this. The reasons and goals for doing this remains the same [See here](http://www.saipanyam.net/2011/06/clever-algorithms-python.html).
 
 ### What is this repository for? ###
 
