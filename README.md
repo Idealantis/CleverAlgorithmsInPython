@@ -1,12 +1,21 @@
 # README #
+Clever Algorithms in Python (CAIP) is an extension of the body of knowledge started by Jason Browlee : [Clever Algorithms](http://www.cleveralgorithms.com/)
+Nature Inspired Programming Recipes. 
 
-This README would normally document whatever steps are necessary to get your application up and running.
+CAIP was started in 2011 with the intention of bringing this to Python. But this was prematurely abandoned because of time constraints. Now we have restarted this. The reasons and goals for doing this remains the same [See here](http://www.saipanyam.net/2011/06/clever-algorithms-python.html).
+The change is we will complete this with new examples and add explore the optimization techniques and mechanics used.
 
-### What is this repository for? ###
+### Algorithm Classification ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Clever Algorithms have been classified in to the following broad categories:
+
+* Stochastic Algorithms
+* Evolutionary Algorithms
+* Swarm Algorithms
+* Probabilistic Algorithms
+* Physical Algorithms
+* Immune Algorithms
+* Neural Algorithms
 
 ### How do I get set up? ###
 
