@@ -7,7 +7,7 @@ Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tes
 '''
 from Helpers.Utilities import basinFunction
 from ResultHelpers import TSPResult, BasinResult
-class TestClass:
+class TestStochastic:
     def setup_method(self):
         self.Vector = [1,2]
         # Problem Configuration

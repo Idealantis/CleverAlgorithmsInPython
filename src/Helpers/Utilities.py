@@ -110,4 +110,35 @@ def constructInitialSolution(initPerm):
         shuffleIndex = random.randrange(index,size)# randrange would exclude the upper bound
         permutation[shuffleIndex], permutation[index]= permutation[index], permutation[shuffleIndex]
     return permutation
-
+# for calculating the total value and weight of knapsack
+def totalValue(items,limit):
+    # get all the items
+    totwt = totval = 0
+    for item, wt, val in items:
+        totwt  += wt # calculate the total weight and total value
+        totval += val # calculate the total value
+    # return the weight and value tuple
+    return (totval, -totwt) if totwt <= limit else (0, 0)
+# for 0/1 knapsack problem using dynamic programming
+def dpKnapsackProblem(items,limit):
+    # create an array with n+1 rows and w+1 columns
+    table = [[0 for w in range(limit + 1)] for j in xrange(len(items) + 1)]
+    for j in xrange(1,len(items)+1):
+        item, wt, val = items[j-1] # get each individual item from items list
+        for w in xrange(1, limit + 1):
+            if wt > w: # get each value from 1 to limit and check if it is less than total weight
+                table[j][w] = table[j-1][w] # make the table[j][w] value 0
+            else:
+                # formula t(i,j) = max(t(i-1,j),vali+t(i-1,j-wi))
+                table[j][w] = max(table[j-1][w],table[j-1][w-wt] + val)
+    result = []
+    w = limit
+    for j in range(len(items), 0, -1):
+        # get the last column and the last element of last column becomes the total value
+        # and then check the last cols value with the prev value if not same then consider that item
+        was_added = table[j][w] != table[j-1][w]
+        if was_added:
+            item, wt, val = items[j-1] # get the item,wt, value of picked items
+            result.append(items[j-1]) # append the item to the result
+            w -= wt # decrease the weight so that we can go back to the 0th row
+    return result # return the result
