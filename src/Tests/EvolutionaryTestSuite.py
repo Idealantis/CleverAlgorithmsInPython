@@ -7,19 +7,30 @@ Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tes
 '''
 class TestEvolutionary:
     def test_01KnapsackDynamicProg(self):
-        from Helpers.Utilities import dpKnapsackProblem,totalValue
+        from Helpers.Utilities import zeroOneKnapsackSolverByDynamicProgram,totalValue
         # available items to choose from
-        items = (
-            ("map", 9, 150), ("compass", 13, 35), ("water", 153, 200), ("sandwich", 50, 160),
-            ("glucose", 15, 60), ("tin", 68, 45), ("banana", 27, 60), ("apple", 39, 40),
-            ("cheese", 23, 30), ("beer", 52, 10), ("suntan cream", 11, 70), ("camera", 32, 30),
-            ("t-shirt", 24, 15), ("trousers", 48, 10), ("umbrella", 73, 40),
-            ("waterproof trousers", 42, 70), ("waterproof overclothes", 43, 75),
-            ("note-case", 22, 80), ("sunglasses", 7, 20), ("towel", 18, 12),
-            ("socks", 4, 50), ("book", 30, 10),
-            )
-        limit = 400 # maximum weight of knapsack
-        bagged = dpKnapsackProblem(items,limit)
-        print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in bagged)))
-        val, wt = totalValue(bagged,limit) # get the total value and weight
+        items =(("map",52,189),("compass",12,25),("water", 12, 133),("sandwich",167,422),("glucose", 150, 29)
+        ,("tin", 280, 523),("banana", 19, 33),("apple", 35, 127),("cheese",125,340),("beer",29,43),
+    ("suntan cream",63,47),("camera",17,52),("t-shirt",33,97),("trousers",45,101),("umbrella",53,108),
+    ("waterproof trousers",33,7),("waterproof overclothes",180,550),("note-case",88,116),
+    ("sunglasses",140,167),("towel",31,47),("socks",94,212),("book",5,13),("video-game",57,287),("mobile",60,320),("oxygen",350,27),
+    ("tent",99,400),("watch",220,179),("first-aid",89,487),("knife",22,39),("torch",12,199),
+    ("gas",23,39),("laptop",143,570))
+        limit = 1000 # maximum weight of knapsack
+        bagged = zeroOneKnapsackSolverByDynamicProgram(items,limit)
+        print("-------------------------------------------------------------------------------")
+        print("   0/1 Knapsack By Dynamic Programming  ")
+        print("-------------------------------------------------------------------------------")
+        print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in bagged[0])))
+        val, wt = totalValue(bagged[0],limit) # get the total value and weight
         print("For a total value of %i and a total weight of %i" % (val, -wt))
+        print("Solution found in %s"% bagged[1])
+    def test_01KnapsackGeneticAlgorithm(self):
+        from Helpers.gaKnapsack import zeroOneKnapsackSolverByGeneticAlgo
+        values = zeroOneKnapsackSolverByGeneticAlgo()
+        print("-------------------------------------------------------------------------------")
+        print("   0/1 Knapsack By Genetic Algorithm ")
+        print("-------------------------------------------------------------------------------")
+        print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in values[0])))
+        print("For a total value of %i and a total weight of %i" % (values[1], values[2]))
+        print("Solution found in %s"% values[3])

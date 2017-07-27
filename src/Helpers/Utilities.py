@@ -3,7 +3,7 @@ Created on July 8, 2017
 
 @author: Sai
 '''
-import math, random
+import math, random,time
 
 # Objective function that evaluates the cost
 def basinFunction(vector):
@@ -120,7 +120,8 @@ def totalValue(items,limit):
     # return the weight and value tuple
     return (totval, -totwt) if totwt <= limit else (0, 0)
 # for 0/1 knapsack problem using dynamic programming
-def dpKnapsackProblem(items,limit):
+def zeroOneKnapsackSolverByDynamicProgram(items,limit):
+    start_time = time.time()
     # create an array with n+1 rows and w+1 columns
     table = [[0 for w in range(limit + 1)] for j in xrange(len(items) + 1)]
     for j in xrange(1,len(items)+1):
@@ -141,4 +142,6 @@ def dpKnapsackProblem(items,limit):
             item, wt, val = items[j-1] # get the item,wt, value of picked items
             result.append(items[j-1]) # append the item to the result
             w -= wt # decrease the weight so that we can go back to the 0th row
-    return result # return the result
+    end_time = time.time()
+    total_time = time.strftime('%Mm %Ss',time.gmtime(end_time-start_time))
+    return (result,total_time) # return the result
