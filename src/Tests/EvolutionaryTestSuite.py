@@ -5,8 +5,8 @@ Created on July 25, 2017
 
 Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tests and functional tests of search
 '''
-class TestEvolutionary:
-    def test_01KnapsackDynamicProg(self):
+class TestEvolutionaryAlgorithms:
+    def test_01KnapsackDynamicProgram(self):
         from Helpers.Utilities import zeroOneKnapsackSolverByDynamicProgram,totalValue
         # available items to choose from
         items =(("map",52,189),("compass",12,25),("water", 12, 133),("sandwich",167,422),("glucose", 150, 29)
