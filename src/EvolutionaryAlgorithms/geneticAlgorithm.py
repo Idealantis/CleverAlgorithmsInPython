@@ -1,20 +1,5 @@
 import random
-
-def getPopulation(numOfBits, popSize):
-    population = [{"bitstring":None,"fitness":None}]*popSize
-    for i in range(popSize):
-        temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
-        population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
-    return population
-
-def oneMax(temp):
-    return temp.count('1')
-
-def binaryTournament(population, popSize):
-    i, j = random.randrange(popSize), random.randrange(popSize)
-    while j==i:
-        j = random.randrange(popSize)
-    return population[i] if population[i]["fitness"]>population[j]["fitness"] else population[j]
+from Helpers.Utilities import getPopulation, oneMax, binaryTournament
 
 def crossOver(parent1, parent2, popCrossOver):
     if random.random()> popCrossOver:
@@ -53,8 +38,7 @@ def geneticAlgorithm(maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
         bestFromChildren = sorted(children, key = lambda x: x['fitness'], reverse=True)[0]
         if bestFromChildren["fitness"] >= best['fitness']:
             best  = bestFromChildren
-        print " Generation ",i,
-        print " Best ",best["fitness"],best["bitstring"]
+            
         if best["fitness"] == numOfBits:
             break
     return best
