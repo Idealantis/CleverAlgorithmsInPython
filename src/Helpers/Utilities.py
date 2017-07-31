@@ -4,7 +4,7 @@ Created on July 8, 2017
 @author: Sai
 '''
 import math, random,time
-
+import numpy as np
 # Objective function that evaluates the cost
 def basinFunction(vector):
     # original basin function from Clever Algorithms book
@@ -145,3 +145,122 @@ def zeroOneKnapsackSolverByDynamicProgram(items,limit):
     end_time = time.time()
     total_time = time.strftime('%Mm %Ss',time.gmtime(end_time-start_time))
     return (result,total_time) # return the result
+
+# MUTATION STRATEGIES START
+
+# BitFlip 
+def bitFlip(bitstring, numOfBits):
+	newBitString = bitstring
+	flag = []
+	bitIndex = 0
+	numOfZeros = numOfBits - bitstring.count('1')
+	while(numOfZeros):
+		while True:
+			bitIndex = random.randint(0,numOfBits-1)
+			if(bitIndex in flag):
+				continue
+			flag.insert(0, bitIndex)
+			break
+		if newBitString[bitIndex] == '0':
+			newBitString = newBitString[0:bitIndex]+'1'+newBitString[bitIndex+1:numOfBits]
+		else:
+			newBitString = newBitString[0:bitIndex]+'0'+newBitString[bitIndex+1:numOfBits]
+		numOfZeros -= 1
+	return newBitString
+
+# Swap
+def swapMutaion(bitstring, numOfBits):
+	newBitString = bitstring
+	bitsToBeFlipped = random.sample(range(0, numOfBits), 2)
+	
+	newBitString = newBitString[ 0 : bitsToBeFlipped[0] ] + bitstring[ bitsToBeFlipped[1] ] + newBitString[ bitsToBeFlipped[0] + 1 : numOfBits ]
+	newBitString = newBitString[ 0 : bitsToBeFlipped[1] ] + bitstring[ bitsToBeFlipped[0] ] + newBitString[ bitsToBeFlipped[1] + 1 : numOfBits ]
+	return newBitString
+
+#Scramble 
+def scrambleMutation(bitstring, numOfBits):
+	bRangeScramble = random.sample(range(0, numOfBits), 2)
+	newBitString = bitstring
+	if(bRangeScramble[0] > bRangeScramble[1]):
+        temp = bRangeScramble[1]
+        bRangeScramble[1] = bRangeScramble[0]
+        bRangeScramble[0] = temp
+	flag = random.sample(range(bRangeScramble[0], bRangeScramble[1]), bRangeScramble[1]-bRangeScramble[0])
+	index = 0
+	for i in range(bRangeScramble[0], bRangeScramble[1]):
+		newBitString = newBitString[0:i]+bitstring[flag[index]]+newBitString[i+1:numOfBits]
+		index += 1
+	return newBitString
+
+#Inversion
+def inversionMutation(bitstring, numOfBits):
+	bRangeInverse = random.sample(range(0,numOfBits),2)
+	newBitString = bitstring
+	if(bRangeInverse[0] > bRangeInverse[1]):
+        temp = bRangeInverse[1]
+        bRangeInverse[1] = bRangeInverse[0]
+        bRangeInverse[0] = temp
+	index = bRangeInverse[1]
+	for i in range(bRangeInverse[0], bRangeInverse[1]+1):
+		newBitString = newBitString[0:i]+bitstring[index]+newBitString[i+1:numOfBits]
+		index -= 1
+	return newBitString
+
+# MUTATION STRATEGIES END
+
+def getPopulation(numOfBits, popSize):
+	population = [{"bitstring":None,"fitness":None}]*popSize
+	for i in range(popSize):
+		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
+		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
+	return population
+
+def sumOfPopulationFit(population, popSize):
+	sum = 0
+	for i in range(popSize):
+		sum += population[i]['fitness']
+	return sum
+
+def findAbsoulteIndex(A, value):
+	A = np.array(A)
+	index = ( np.abs(A-value)).argmin()
+	return index
+
+def getRangeBasedFitnesses(population, popSize):
+	tempList = range(popSize)
+	random.shuffle(tempList)
+	A = [None]*(popSize*2)
+	temp = 0
+	j = 0
+	for randomIndex in tempList:
+		A[j] = temp+1
+		A[j+1] = A[j]+population[randomIndex]['fitness']-1
+		temp = A[j+1]
+		j += 2
+	return A
+
+# PARENT SELECTION STRATEGIES START
+# Roulette Wheel 
+def rouletteWheelSelection(population, popSize):
+	A = getRangeBasedFitnesses(population, popSize)
+	randomNumOnWheel = random.randint(1, sum)
+	parentIndex = findAbsoulteIndex(A, randomNumOnWheel)
+	return population[parentIndex/2]
+
+# Stochastic Universal Sampling(SUS)
+def StochasticUniversalSampling(population, popSize):
+	A = getRangeBasedFitnesses(population, popSize)
+	tempPopulation = [None]*popSize
+	for i in range(popSize):
+		tempPopulation[i] = population[findAbsoulteIndex(A, random.randint(1, sum))/2]
+	return tempPopulation
+
+# Rank Selection
+def rankSelection(rankPopulation, popSize):
+	i = random.randint(0,popSize/2)
+	j = random.randint(0,popSize/2)
+	while i != j:
+		j = random.randint(0,popSize)
+	return rankPopulation[i] if rankPopulation[i]['fitness'] > rankPopulation[j]['fitness'] else rankPopulation[j]
+
+# PARENT SELECTION STRATEGIES END
