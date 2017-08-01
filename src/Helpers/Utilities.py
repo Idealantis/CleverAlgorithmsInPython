@@ -3,7 +3,7 @@ Created on July 8, 2017
 
 @author: Sai
 '''
-import math, random,time
+import math,random,time
 import numpy as np
 # Objective function that evaluates the cost
 def basinFunction(vector):
@@ -145,10 +145,114 @@ def zeroOneKnapsackSolverByDynamicProgram(items,limit):
     end_time = time.time()
     total_time = time.strftime('%Mm %Ss',time.gmtime(end_time-start_time))
     return (result,total_time) # return the result
+# 0/1 KNAPSACK BY GENETIC ALGO
+def crossover(ind1,ind2,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    cop = random.randint(1,NUM_ITEMS-2)
+    new_ind1 = ind1[0:cop] + ind2[cop:NUM_ITEMS]
+    new_ind2 = ind2[0:cop] + ind1[cop:NUM_ITEMS]
+    while fitness(new_ind1,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT) == 0:
+        ones = [i for i,x in enumerate(new_ind1) if x==1]
+        new_ind1[random.choice(ones)] = 0
+    while fitness(new_ind2,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT) == 0:
+        ones = [i for i,x in enumerate(new_ind2) if x==1]
+        new_ind2[random.choice(ones)] = 0
+    return new_ind1,new_ind2
+def select(p,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    ind1,ind2 = random.sample(p,2)
+    if fitness(ind1,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT) > fitness(ind2,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+        return ind1
+    else:
+        return ind2
+def mutate(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    chrom = random.randint(0,NUM_ITEMS - 1)
+    ind[chrom] = int(not ind[chrom])
+    while fitness(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT) == 0:
+        ones = [i for i,x in enumerate(ind) if x==1]
+        ind[random.choice(ones)] = 0
+    return ind
+def evolve(p,KNAPSACK_ITEMS,POPULATION_SIZE,ELITISM_PERC,CROSSOVER_PROB,MUTATION_PROB,NUM_ITEMS,MAX_WEIGHT):
+    elite_elements = POPULATION_SIZE * ELITISM_PERC / 100.0
+    crossover_float = CROSSOVER_PROB / 100.0
+    mutation_float = MUTATION_PROB / 100.0
+    sorted_p = [ind for fitn,ind in reversed(sorted([(fitness(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT),ind) for ind in p]))]
+    new_population = []
+    for i in xrange(POPULATION_SIZE/2):
+        if i < elite_elements:
+            mother = sorted_p[i]
+            father = sorted_p[i+1]
+        else:
+            mother = select(p,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+            father = select(p,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+        if random.random() < crossover_float:
+            child1,child2 = crossover(mother,father,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+        else:
+            child1 = mother
+            child2 = father
+        if random.random() < mutation_float:
+            child1=mutate(child1,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+        if random.random() < mutation_float:
+            child2=mutate(child2,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+        new_population.append(child1)
+        new_population.append(child2)
+    return new_population
+def get_fittest(p,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    best_fitness,fittest_ind = max([(fitness(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT),ind) for ind in p])
+    return fittest_ind,best_fitness
+def fitness(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    fitness = 0
+    knap_weight = 0
+    for i,item in enumerate(KNAPSACK_ITEMS[:NUM_ITEMS]):
+        if ind[i] == 1:
+            value,weight = item[2],item[1]
+            fitness += value
+            knap_weight += weight
+    if knap_weight > MAX_WEIGHT:
+        return 0
+    return fitness
+def validate_population(p,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT):
+    for ind in p:
+        while fitness(ind,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT) == 0:
+            ones = [i for i,x in enumerate(ind) if x==1]
+            ind[random.choice(ones)] = 0
+    return p
+def zeroOneKnapsackSolverByGeneticAlgo(KNAPSACK_ITEMS,MAX_WEIGHT,NUM_ITEMS,POPULATION_SIZE,ELITISM_PERC,CROSSOVER_PROB,MUTATION_PROB,MAX_STABLE,MAX_GENERATIONS):
+    population = [[random.choice((0,1)) for i in xrange(NUM_ITEMS)] for j in xrange(POPULATION_SIZE)]
+    population = validate_population(population,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+    best_solution,best_fitness = get_fittest(population,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+    start_time = time.time()
+    stable_cnt = 0
+    generation_cnt = 1
+    while True:
+        population = evolve(population,KNAPSACK_ITEMS,POPULATION_SIZE,ELITISM_PERC,CROSSOVER_PROB,MUTATION_PROB,NUM_ITEMS,MAX_WEIGHT)
+        generation_cnt += 1
+        ind,fitness = get_fittest(population,KNAPSACK_ITEMS,NUM_ITEMS,MAX_WEIGHT)
+        if fitness > best_fitness:
+            best_solution = ind
+            best_fitness = fitness
+            stable_cnt = 0
+        else:
+            stable_cnt += 1
+        if stable_cnt >= MAX_STABLE:
+            break
+        if generation_cnt >= MAX_GENERATIONS:
+            break
+    end_time = time.time()
+    print('Solution found in generation %s' % generation_cnt)
+    bagged_items=[]
+    total_weight = 0
+    total_value = 0
+    for i in range(0,len(best_solution)):
+        if best_solution[i] == 1:
+            bagged_items.append(KNAPSACK_ITEMS[i])
+            total_value += KNAPSACK_ITEMS[i][2]
+            total_weight += KNAPSACK_ITEMS[i][1]
+    # print('Fitness : %s'% best_fitness)
+    total_time = time.strftime('%Mm %Ss',time.gmtime(end_time-start_time))
+    return (bagged_items,total_value,total_weight,total_time)
 
 # MUTATION STRATEGIES START
 
-# BitFlip 
+#BitFlip
 def bitFlip(bitstring, numOfBits):
 	newBitString = bitstring
 	flag = []
@@ -157,7 +261,7 @@ def bitFlip(bitstring, numOfBits):
 	while(numOfZeros):
 		while True:
 			bitIndex = random.randint(0,numOfBits-1)
-			if(bitIndex in flag):
+			if bitIndex in flag:
 				continue
 			flag.insert(0, bitIndex)
 			break
@@ -167,21 +271,18 @@ def bitFlip(bitstring, numOfBits):
 			newBitString = newBitString[0:bitIndex]+'0'+newBitString[bitIndex+1:numOfBits]
 		numOfZeros -= 1
 	return newBitString
-
 # Swap
 def swapMutaion(bitstring, numOfBits):
 	newBitString = bitstring
 	bitsToBeFlipped = random.sample(range(0, numOfBits), 2)
-	
 	newBitString = newBitString[ 0 : bitsToBeFlipped[0] ] + bitstring[ bitsToBeFlipped[1] ] + newBitString[ bitsToBeFlipped[0] + 1 : numOfBits ]
 	newBitString = newBitString[ 0 : bitsToBeFlipped[1] ] + bitstring[ bitsToBeFlipped[0] ] + newBitString[ bitsToBeFlipped[1] + 1 : numOfBits ]
 	return newBitString
-
-#Scramble 
+#Scramble
 def scrambleMutation(bitstring, numOfBits):
 	bRangeScramble = random.sample(range(0, numOfBits), 2)
 	newBitString = bitstring
-	if(bRangeScramble[0] > bRangeScramble[1]):
+	if bRangeScramble[0] > bRangeScramble[1]:
         temp = bRangeScramble[1]
         bRangeScramble[1] = bRangeScramble[0]
         bRangeScramble[0] = temp
@@ -191,12 +292,11 @@ def scrambleMutation(bitstring, numOfBits):
 		newBitString = newBitString[0:i]+bitstring[flag[index]]+newBitString[i+1:numOfBits]
 		index += 1
 	return newBitString
-
 #Inversion
 def inversionMutation(bitstring, numOfBits):
 	bRangeInverse = random.sample(range(0,numOfBits),2)
 	newBitString = bitstring
-	if(bRangeInverse[0] > bRangeInverse[1]):
+	if bRangeInverse[0] > bRangeInverse[1]:
         temp = bRangeInverse[1]
         bRangeInverse[1] = bRangeInverse[0]
         bRangeInverse[0] = temp
@@ -205,27 +305,22 @@ def inversionMutation(bitstring, numOfBits):
 		newBitString = newBitString[0:i]+bitstring[index]+newBitString[i+1:numOfBits]
 		index -= 1
 	return newBitString
-
 # MUTATION STRATEGIES END
-
 def getPopulation(numOfBits, popSize):
 	population = [{"bitstring":None,"fitness":None}]*popSize
 	for i in range(popSize):
 		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
 		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
 	return population
-
 def sumOfPopulationFit(population, popSize):
 	sum = 0
 	for i in range(popSize):
 		sum += population[i]['fitness']
 	return sum
-
 def findAbsoulteIndex(A, value):
 	A = np.array(A)
 	index = ( np.abs(A-value)).argmin()
 	return index
-
 def getRangeBasedFitnesses(population, popSize):
 	tempList = range(popSize)
 	random.shuffle(tempList)
@@ -238,15 +333,13 @@ def getRangeBasedFitnesses(population, popSize):
 		temp = A[j+1]
 		j += 2
 	return A
-
 # PARENT SELECTION STRATEGIES START
-# Roulette Wheel 
+# Roulette Wheel
 def rouletteWheelSelection(population, popSize):
 	A = getRangeBasedFitnesses(population, popSize)
 	randomNumOnWheel = random.randint(1, sum)
 	parentIndex = findAbsoulteIndex(A, randomNumOnWheel)
 	return population[parentIndex/2]
-
 # Stochastic Universal Sampling(SUS)
 def StochasticUniversalSampling(population, popSize):
 	A = getRangeBasedFitnesses(population, popSize)
@@ -257,10 +350,9 @@ def StochasticUniversalSampling(population, popSize):
 
 # Rank Selection
 def rankSelection(rankPopulation, popSize):
-	i = random.randint(0,popSize/2)
-	j = random.randint(0,popSize/2)
-	while i != j:
-		j = random.randint(0,popSize)
+    i = random.randint(0,popSize/2)
+    j = random.randint(0,popSize/2)
+    while i != j:
+        j = random.randint(0,popSize)
 	return rankPopulation[i] if rankPopulation[i]['fitness'] > rankPopulation[j]['fitness'] else rankPopulation[j]
-
-# PARENT SELECTION STRATEGIES END
+#PARENT SELECTION STRATEGIES END
