@@ -257,7 +257,7 @@ def bitFlip(bitstring, numOfBits):
 	newBitString = bitstring
 	flag = []
 	bitIndex = 0
-	numOfZeros = numOfBits - bitstring.count('1')
+	numOfZeros = numOfBits - oneMax(bitstring)
 	while(numOfZeros):
 		while True:
 			bitIndex = random.randint(0,numOfBits-1)
@@ -306,6 +306,15 @@ def inversionMutation(bitstring, numOfBits):
 		index -= 1
 	return newBitString
 # MUTATION STRATEGIES END
+
+def oneMax(temp):
+    return temp.count('1')
+
+def binaryTournament(population, popSize):
+    i, j = random.randrange(popSize), random.randrange(popSize)
+    while j==i:
+        j = random.randrange(popSize)
+    return population[i] if population[i]["fitness"]>population[j]["fitness"] else population[j]
 def getPopulation(numOfBits, popSize):
 	population = [{"bitstring":None,"fitness":None}]*popSize
 	for i in range(popSize):
