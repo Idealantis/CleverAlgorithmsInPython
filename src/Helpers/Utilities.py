@@ -283,9 +283,9 @@ def scrambleMutation(bitstring, numOfBits):
 	bRangeScramble = random.sample(range(0, numOfBits), 2)
 	newBitString = bitstring
 	if bRangeScramble[0] > bRangeScramble[1]:
-        temp = bRangeScramble[1]
-        bRangeScramble[1] = bRangeScramble[0]
-        bRangeScramble[0] = temp
+		temp = bRangeScramble[1]
+		bRangeScramble[1] = bRangeScramble[0]
+		bRangeScramble[0] = temp
 	flag = random.sample(range(bRangeScramble[0], bRangeScramble[1]), bRangeScramble[1]-bRangeScramble[0])
 	index = 0
 	for i in range(bRangeScramble[0], bRangeScramble[1]):
@@ -297,9 +297,9 @@ def inversionMutation(bitstring, numOfBits):
 	bRangeInverse = random.sample(range(0,numOfBits),2)
 	newBitString = bitstring
 	if bRangeInverse[0] > bRangeInverse[1]:
-        temp = bRangeInverse[1]
-        bRangeInverse[1] = bRangeInverse[0]
-        bRangeInverse[0] = temp
+		temp = bRangeInverse[1]
+		bRangeInverse[1] = bRangeInverse[0]
+		bRangeInverse[0] = temp
 	index = bRangeInverse[1]
 	for i in range(bRangeInverse[0], bRangeInverse[1]+1):
 		newBitString = newBitString[0:i]+bitstring[index]+newBitString[i+1:numOfBits]

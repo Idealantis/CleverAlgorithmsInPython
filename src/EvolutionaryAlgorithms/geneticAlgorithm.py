@@ -1,13 +1,13 @@
 import random
 from Helpers.Utilities import getPopulation, oneMax, binaryTournament
 
-def crossOver(parent1, parent2, popCrossOver):
+def onePointCrossOver(parent1, parent2, popCrossOver):
     if random.random()> popCrossOver:
         return parent1
     point = 1 + random.randint(1,len(parent1) - 2)
     return parent1[0:point]+parent2[point:len(parent1)]
 
-def pointMutation(bitstring, popMutation):#popMutation
+def pointMutation(bitstring, popMutation):
     child = ""
     bLen = len(bitstring)
     for i in range(bLen):
@@ -23,7 +23,7 @@ def reproduce(selected, popSize, popCrossOver, popMutation):
         if index == len(selected)-1:
             parent2 = selected[0]
         child = {}
-        child["bitstring"] = crossOver(parent1["bitstring"], parent2["bitstring"], popCrossOver)
+        child["bitstring"] = onePointCrossOver(parent1["bitstring"], parent2["bitstring"], popCrossOver)
         child["bitstring"] = pointMutation(child["bitstring"], popMutation)
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child                
