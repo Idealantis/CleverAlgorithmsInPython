@@ -24,6 +24,7 @@ class TestEvolutionaryAlgorithms:
         print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in bagged[0])))
         print("For a total value of %i and a total weight of %i" % (bagged[2], bagged[1]))
         print("Solution found in %s"% bagged[3])
+        assert bagged[1] == 998
     def test_01KnapsackGeneticAlgorithm(self):
         from EvolutionaryAlgorithms.KnapSackSolver.knapsackGenetic import knapsackSolverGeneticAlgorithm
         KNAPSACK_ITEMS =(("map",52,189),("compass",12,25),("water", 12, 133),("sandwich",167,422),("glucose", 150, 29)
@@ -49,3 +50,4 @@ class TestEvolutionaryAlgorithms:
         print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in values[0])))
         print("For a total value of %i and a total weight of %i" % (values[1], values[2]))
         print("Solution found in %s"% values[3])
+        assert values[2] == 998
