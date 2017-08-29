@@ -5,6 +5,7 @@ Created on July 25, 2017
 
 Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tests and functional tests of search
 '''
+from ResultHelpers import TSPResult, BasinResult
 class TestEvolutionaryAlgorithms:
     def test_01KnapsackDynamicProgram(self):
         from EvolutionaryAlgorithms.KnapSackSolver.knapsackDynamic import knapsackSolverDynamicProg
@@ -24,7 +25,6 @@ class TestEvolutionaryAlgorithms:
         print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in bagged[0])))
         print("For a total value of %i and a total weight of %i" % (bagged[2], bagged[1]))
         print("Solution found in %s"% bagged[3])
-        assert bagged[1] == 998
     def test_01KnapsackGeneticAlgorithm(self):
         from EvolutionaryAlgorithms.KnapSackSolver.knapsackGenetic import knapsackSolverGeneticAlgorithm
         KNAPSACK_ITEMS =(("map",52,189),("compass",12,25),("water", 12, 133),("sandwich",167,422),("glucose", 150, 29)
@@ -50,4 +50,17 @@ class TestEvolutionaryAlgorithms:
         print("Bagged the following items\n" +'\n'.join(sorted(item for item,_,_ in values[0])))
         print("For a total value of %i and a total weight of %i" % (values[1], values[2]))
         print("Solution found in %s"% values[3])
-        assert values[2] == 998
+    def test_GeneticAlgorithm(self):
+        from EvolutionaryAlgorithms.GeneticAlgorithm import geneticAlgorithm
+        # problem configuration
+        num_bits = 64
+        # algorithm configuration
+        max_gens = 100
+        pop_size = 100
+        p_crossover = 0.98
+        p_mutation = 1.0/num_bits
+        # execute the algorithm
+        best = geneticAlgorithm(max_gens, num_bits, pop_size, p_crossover, p_mutation)
+        # puts "done! Solution: f=#{best[:fitness]}, s=#{best[:bitstring]}"
+        basin = BasinResult('Random Search')
+        print(basin.FormattedOutputForEolutionary(best))
