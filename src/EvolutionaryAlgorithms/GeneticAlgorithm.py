@@ -1,31 +1,13 @@
 import random
+from
 def oneMax(temp):
     return temp.count('1')
-def binaryTournament(population, popSize):
-    i, j = random.randrange(popSize), random.randrange(popSize)
-    while j==i:
-        j = random.randrange(popSize)
-    return population[i] if population[i]["fitness"]>population[j]["fitness"] else population[j]
 def getPopulation(numOfBits, popSize):
     	population = [{"bitstring":None,"fitness":None}]*popSize
 	for i in range(popSize):
 		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
 		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
-	return population
-def onePointCrossOver(parent1, parent2, popCrossOver):
-    if random.random()> popCrossOver:
-        return parent1
-    point = 1 + random.randint(1,len(parent1) - 2)
-    return parent1[0:point]+parent2[point:len(parent1)]
-
-def pointMutation(bitstring, popMutation):
-    child = ""
-    bLen = len(bitstring)
-    for i in range(bLen):
-        bit = bitstring[i]
-        child += "0" if bit=='1' else "1" if (random.random() < popMutation) else bit
-    return child
-
+	return populatio
 def reproduce(selected, popSize, popCrossOver, popMutation):
     children = [None]*popSize
     child = {}
@@ -35,7 +17,7 @@ def reproduce(selected, popSize, popCrossOver, popMutation):
             parent2 = selected[0]
         child = {}
         child["bitstring"] = onePointCrossOver(parent1["bitstring"], parent2["bitstring"], popCrossOver)
-        child["bitstring"] = pointMutation(child["bitstring"], popMutation)
+        child["bitstring"] = pointMutation(child["bitstring"], len(child["bitstring"]) ,popMutation)
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child
     return children
