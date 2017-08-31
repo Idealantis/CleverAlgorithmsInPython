@@ -1,3 +1,4 @@
+import random
 # helper function to make copy contents one to other, from parents to children
 def makeCrossOver(child1, child2, parent1, parent2, startIndex, endIndex,flag):
     if(flag % 2):
@@ -5,8 +6,8 @@ def makeCrossOver(child1, child2, parent1, parent2, startIndex, endIndex,flag):
         child2 += parent2[startIndex:endIndex]
     else:
         child1 += parent2[startIndex:endIndex]
-		child2 += parent1[startIndex:endIndex]
-	return child1, child2
+        child2 += parent1[startIndex:endIndex]
+    return child1, child2
 # Multipoing CrossOver
 def multiPointCrossOver(parent1, parent2, popCrossOver):
 	if random.random() >= popCrossOver:

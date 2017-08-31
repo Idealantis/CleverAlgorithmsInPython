@@ -9,7 +9,7 @@ def getPopulation(numOfBits, popSize):
 	for i in range(popSize):
 		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
 		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
-	return populatio
+	return population
 def reproduce(selected, popSize, popCrossOver, popMutation):
     children = [None]*popSize
     child = {}
@@ -23,7 +23,7 @@ def reproduce(selected, popSize, popCrossOver, popMutation):
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child
     return children
-def geneticAlgorithm(maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
+def geneticAlgorithm(strategis,maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
     population = getPopulation(numOfBits, popSize)
     best  = sorted(population, key = lambda x: x['fitness'], reverse=True)[0]
     for i in range(maxNoGenes):

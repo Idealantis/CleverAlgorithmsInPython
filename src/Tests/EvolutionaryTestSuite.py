@@ -52,6 +52,44 @@ class TestEvolutionaryAlgorithms:
         print("Solution found in %s"% values[3])
     def test_GeneticAlgorithm(self):
         from EvolutionaryAlgorithms.GeneticAlgorithm import geneticAlgorithm
+        strategis = []
+        selectionStrategis = ['binaryTournament','rouletteWheelSelection','stochasticUniversalSampling','rankSelection']
+        print('Which selection Strategy you want to use ?')
+        for i in range(1,len(selectionStrategis)):
+            print(str(i)+'. '+selectionStrategis[i])
+        try:
+            id = raw_input('Enter the strategy Id you want to use or leave it empty for using the default one: ')
+            if id != '':
+                strategis.append(selectionStrategis[int(id)])
+            else:
+                strategis.append(selectionStrategis[0])
+        except EOFError:
+            strategis.append(selectionStrategis[0])
+        crossOverStrategis = ['onePointCrossOver','multiPointCrossOver','uniformCrossOver']
+        print('Which Crossover Strategy you want to use ?')
+        for i in range(1,len(crossOverStrategis)):
+            print(str(i)+'. '+crossOverStrategis[i])
+        try:
+            id = raw_input('Enter the strategy Id you want to use or leave it empty for using the default one: ')
+            if id != '':
+                strategis.append(crossOverStrategis[int(id)])
+            else:
+                strategis.append(crossOverStrategis[0])
+        except EOFError:
+            strategis.append(crossOverStrategis[0])
+        mutationStrategis = ['pointMutation','bitFlip','inversionMutation','swapMutaion','scrambleMutation']
+        print('Which Mutation Strategy you want to use ?')
+        for i in range(1,len(mutationStrategis)):
+            print(str(i)+'. '+mutationStrategis[i])
+        try:
+            id = raw_input('Enter the strategy Id you want to use or leave it empty for using the default one: ')
+            if id != '':
+                strategis.append(mutationStrategis[int(id)])
+            else:
+                strategis.append(mutationStrategis[0])
+        except EOFError:
+            strategis.append(mutationStrategis[0])
+        print(strategis)
         # problem configuration
         num_bits = 64
         # algorithm configuration
@@ -60,7 +98,7 @@ class TestEvolutionaryAlgorithms:
         p_crossover = 0.98
         p_mutation = 1.0/num_bits
         # execute the algorithm
-        best = geneticAlgorithm(max_gens, num_bits, pop_size, p_crossover, p_mutation)
+        best = geneticAlgorithm(strategis,max_gens, num_bits, pop_size, p_crossover, p_mutation)
         # puts "done! Solution: f=#{best[:fitness]}, s=#{best[:bitstring]}"
-        basin = BasinResult('Random Search')
+        basin = BasinResult('Genetic Algorithm')
         print(basin.FormattedOutputForEolutionary(best))
