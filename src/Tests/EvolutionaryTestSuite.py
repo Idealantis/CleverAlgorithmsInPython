@@ -89,7 +89,7 @@ class TestEvolutionaryAlgorithms:
                 strategis.append(mutationStrategis[0])
         except EOFError:
             strategis.append(mutationStrategis[0])
-        print(strategis)
+        # print(strategis)
         # problem configuration
         num_bits = 64
         # algorithm configuration

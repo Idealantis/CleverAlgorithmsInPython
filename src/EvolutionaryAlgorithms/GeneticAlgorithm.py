@@ -10,7 +10,7 @@ def getPopulation(numOfBits, popSize):
 		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
 		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
 	return population
-def reproduce(selected, popSize, popCrossOver, popMutation):
+def reproduce(strategis,selected, popSize, popCrossOver, popMutation):
     children = [None]*popSize
     child = {}
     for index, parent1 in enumerate(selected):
@@ -18,8 +18,8 @@ def reproduce(selected, popSize, popCrossOver, popMutation):
         if index == len(selected)-1:
             parent2 = selected[0]
         child = {}
-        child["bitstring"] = onePointCrossOver(parent1["bitstring"], parent2["bitstring"], popCrossOver)
-        child["bitstring"] = pointMutation(child["bitstring"], len(child["bitstring"]) ,popMutation)
+        child["bitstring"] = eval(strategis[1])(parent1["bitstring"], parent2["bitstring"], popCrossOver)
+        child["bitstring"] = eval(strategis[2])(child["bitstring"], len(child["bitstring"]) ,popMutation)
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child
     return children
@@ -27,8 +27,8 @@ def geneticAlgorithm(strategis,maxNoGenes, numOfBits, popSize, popCrossOver, pop
     population = getPopulation(numOfBits, popSize)
     best  = sorted(population, key = lambda x: x['fitness'], reverse=True)[0]
     for i in range(maxNoGenes):
-        selected = [binaryTournament(population, popSize) for j in range(popSize) ]
-        children = reproduce(selected, popSize, popCrossOver, popMutation)
+        selected = [eval(strategis[0])(population, popSize) for j in range(popSize)]
+        children = reproduce(strategis,selected, popSize, popCrossOver, popMutation)
         bestFromChildren = sorted(children, key = lambda x: x['fitness'], reverse=True)[0]
         if bestFromChildren["fitness"] >= best['fitness']:
             best  = bestFromChildren

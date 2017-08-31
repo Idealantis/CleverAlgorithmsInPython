@@ -6,15 +6,16 @@ def getRangeBasedFitnesses(population, popSize):
     A = [None]*(popSize*2)
     temp = 0
     j = 0
-    for randomIndex in tempList:
+    for randomIndex in range(0,len(tempList)):
         A[j] = temp+1
         A[j+1] = A[j]+population[randomIndex]['fitness']-1
         temp = A[j+1]
         j += 2
-	return A
+        continue
+    return A
 def findAbsoulteIndex(A, value):
     A = np.array(A)
-    index = ( np.abs(A-value)).argmin()
+    index = (np.abs(A-value)).argmin()
     return index
 def sumOfPopulationFit(population, popSize):
     sumFitness = 0
@@ -31,6 +32,7 @@ def rouletteWheelSelection(population, popSize):
 # Stochastic Universal Sampling(SUS)
 def stochasticUniversalSampling(population, popSize):
     A = getRangeBasedFitnesses(population, popSize)
+    sumFitness = sumOfPopulationFit(population,popSize)
     tempPopulation = [None]*popSize
     for i in range(popSize):
         tempPopulation[i] = population[findAbsoulteIndex(A, random.randint(1, sumFitness))/2]

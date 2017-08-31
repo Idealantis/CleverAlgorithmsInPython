@@ -2,8 +2,8 @@ import random
 #BitFlip
 def oneMax(temp):
     return temp.count('1')
-def bitFlip(bitString, numOfBits, popMutation):
-    newBitString = bitString
+def bitFlip(bitstring, numOfBits, popMutation):
+    newBitString = bitstring
     flag = []
     bitIndex = 0
     numOfZeros = numOfBits - oneMax(bitstring)

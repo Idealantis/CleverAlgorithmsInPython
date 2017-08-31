@@ -1,4 +1,6 @@
 import random
+def oneMax(temp):
+    return temp.count('1')
 # helper function to make copy contents one to other, from parents to children
 def makeCrossOver(child1, child2, parent1, parent2, startIndex, endIndex,flag):
     if(flag % 2):
