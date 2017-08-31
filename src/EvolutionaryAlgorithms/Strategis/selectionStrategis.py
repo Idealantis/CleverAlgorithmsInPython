@@ -29,7 +29,7 @@ def rouletteWheelSelection(population, popSize):
     parentIndex = findAbsoulteIndex(A, randomNumOnWheel)
     return population[parentIndex/2]
 # Stochastic Universal Sampling(SUS)
-def StochasticUniversalSampling(population, popSize):
+def stochasticUniversalSampling(population, popSize):
     A = getRangeBasedFitnesses(population, popSize)
 	tempPopulation = [None]*popSize
 	for i in range(popSize):

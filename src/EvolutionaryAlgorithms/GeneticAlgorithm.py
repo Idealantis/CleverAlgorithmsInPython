@@ -1,5 +1,7 @@
 import random
-from
+from Strategis.crossoverStrategis import onePointCrossOver,multiPointCrossOver,uniformCrossOver
+from Strategis.mutationStrategis import bitFlip,inversionMutation,swapMutaion,scrambleMutation,pointMutation
+from Strategis.selectionStrategis import binaryTournament,rouletteWheelSelection,stochasticUniversalSampling,rankSelection
 def oneMax(temp):
     return temp.count('1')
 def getPopulation(numOfBits, popSize):
