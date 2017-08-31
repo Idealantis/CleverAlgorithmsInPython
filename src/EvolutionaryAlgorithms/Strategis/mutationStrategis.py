@@ -38,7 +38,7 @@ def scrambleMutation(bitstring, numOfBits, popMutation):
     flag = random.sample(range(bRangeScramble[0], bRangeScramble[1]), bRangeScramble[1]-bRangeScramble[0])
     index = 0
     for i in range(bRangeScramble[0], bRangeScramble[1]):
-        newBitString = str(newBitString[0:i])+str(bitstring[flag[index]])+str(newBitString[i+1:numOfBits])
+        newBitString = newBitString[0:i]+bitstring[flag[index]]+newBitString[i+1:numOfBits]
         index += 1
     return newBitString
 #Inversion
@@ -51,7 +51,7 @@ def inversionMutation(bitstring, numOfBits, popMutation):
         bRangeInverse[0] = temp
     index = bRangeInverse[1]
     for i in range(bRangeInverse[0], bRangeInverse[1]+1):
-        newBitString = str(newBitString[0:i])+str(bitstring[index])+str(newBitString[i+1:numOfBits])
+        newBitString = newBitString[0:i]+bitstring[index]+newBitString[i+1:numOfBits]
         index -= 1
     return newBitString
 def pointMutation(bitstring, numOfBits, popMutation):
