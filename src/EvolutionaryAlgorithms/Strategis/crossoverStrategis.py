@@ -34,11 +34,9 @@ def multiPointCrossOver(parent1, parent2, popCrossOver):
 # Uniform Crossover - written this crossover strategy in basic way
 # We can make this crossover so it can have maximum fitness
 '''
-In a uniform crossover, we don’t divide the chromosome into segments,
-rather we treat each gene separately. In this, we essentially flip a coin for
- each chromosome to decide whether or not it’ll be included in the off-spring.
- We can also bias the coin to one parent, to have more genetic material in the child from that parent.
- https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_crossover.htm '''
+Scramble mutation is also popular with permutation representations.
+In this, from the entire chromosome, a subset of genes is chosen and their
+values are scrambled or shuffled randomly.'''
 def uniformCrossOver(parent1, parent2, popCrossOver):
 	child1, child2 = '',''
 	length = len(parent1)
