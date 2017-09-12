@@ -33,4 +33,5 @@ def knapsackSolverDynamicProg(items,limit):
     else:
         totalValue = 0
         totalWeight = 0
+    # return the items,totalWeight,totalValue,totalTime tuple
     return (result,totalWeight,totalValue,totalTime)
