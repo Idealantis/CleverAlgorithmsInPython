@@ -5,11 +5,11 @@ from Strategis.selectionStrategis import binaryTournament,rouletteWheelSelection
 def oneMax(temp):
     return temp.count('1')
 def getPopulation(numOfBits, popSize):
-    	population = [{"bitstring":None,"fitness":None}]*popSize
-	for i in range(popSize):
-		temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
-		population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
-	return population
+    population = [{"bitstring":None,"fitness":None}]*popSize
+    for i in range(popSize):
+        temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
+        population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
+    return population
 def reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation):
     children = [None]*popSize
     child = {}
