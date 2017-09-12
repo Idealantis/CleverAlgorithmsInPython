@@ -13,8 +13,7 @@ def makeCrossOver(child1, child2, parent1, parent2, startIndex, endIndex,flag):
 # Multipoing CrossOver
 '''
 Multi point crossover is a generalization of the one-point crossover wherein alternating
-segments are swapped to get new off-springs.
-https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_crossover.htm '''
+segments are swapped to get new off-springs. '''
 def multiPointCrossOver(parent1, parent2, popCrossOver):
 	if random.random() >= popCrossOver:
 		return parent1
@@ -34,9 +33,10 @@ def multiPointCrossOver(parent1, parent2, popCrossOver):
 # Uniform Crossover - written this crossover strategy in basic way
 # We can make this crossover so it can have maximum fitness
 '''
-Scramble mutation is also popular with permutation representations.
-In this, from the entire chromosome, a subset of genes is chosen and their
-values are scrambled or shuffled randomly.'''
+In a uniform crossover, we dont divide the chromosome into segments,
+rather we treat each gene separately. In this, we essentially flip a coin
+for each chromosome to decide whether or not it will be included in the off-spring.
+We can also bias the coin to one parent, to have more genetic material in the child from that parent.'''
 def uniformCrossOver(parent1, parent2, popCrossOver):
 	child1, child2 = '',''
 	length = len(parent1)
@@ -54,7 +54,6 @@ def uniformCrossOver(parent1, parent2, popCrossOver):
 '''
 In this one-point crossover, a random crossover point is
 selected and the tails of its two parents are swapped to get new off-springs.
-https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_crossover.htm
 '''
 def onePointCrossOver(parent1, parent2, popCrossOver):
     if random.random()> popCrossOver:
