@@ -28,7 +28,7 @@ def reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation):
     return children
 def geneticAlgorithm(strategis,maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
     population = getPopulation(numOfBits, popSize)
-    best  = sorted(population, key = lambda x: x['fitness'], reverse=True)[0]
+    best = sorted(population, key = lambda x: x['fitness'], reverse=True)[0]
     selected = [eval(strategis[0])(population, popSize) for j in range(popSize)]
     for i in range(maxNoGenes):
         children = 0
