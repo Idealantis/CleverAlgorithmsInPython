@@ -30,8 +30,7 @@ def multiPointCrossOver(parent1, parent2, popCrossOver):
 # Uniform Crossover - written this crossover strategy in basic way
 # We can make this crossover so it can have maximum fitness
 def uniformCrossOver(parent1, parent2, popCrossOver):
-	child1 = ''
-	child2 = ''
+	child1, child2 = '',''
 	length = len(parent1)
 	for i in range(length):
 		if random.random() > 0.5:
@@ -41,8 +40,8 @@ def uniformCrossOver(parent1, parent2, popCrossOver):
 			child1 += parent1[i]
 			child2 += parent2[i]
 	if oneMax(child1)>oneMax(child2):
-		return child1, oneMax(child1)
-	return child2, oneMax(child2)
+		return child1
+	return child2
 # one point crossover
 def onePointCrossOver(parent1, parent2, popCrossOver):
     if random.random()> popCrossOver:

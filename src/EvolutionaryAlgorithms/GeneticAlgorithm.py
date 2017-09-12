@@ -19,10 +19,10 @@ def reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation):
             parent2 = selected[0]
         child = {}
         child["bitstring"] = eval(strategis[1])(parent1["bitstring"], parent2["bitstring"], popCrossOver)
-        if strategis[2] == 'bitFlip' or strategis[2] == 'swapMutaion' :
-            child["bitstring"] = eval(strategis[2])(child["bitstring"], numOfBits ,popMutation)
-        else:
-            child["bitstring"] = eval(strategis[2])(child["bitstring"], len(child["bitstring"]) ,popMutation)
+        # if strategis[2] == 'bitFlip' or strategis[2] == 'swapMutaion' :
+        #     child["bitstring"] = eval(strategis[2])(child["bitstring"], numOfBits ,popMutation)
+        # else:
+        child["bitstring"] = eval(strategis[2])(child["bitstring"], numOfBits ,popMutation)
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child
     return children
