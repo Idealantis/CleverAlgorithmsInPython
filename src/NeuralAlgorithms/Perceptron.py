@@ -1,12 +1,11 @@
 import numpy as np
-# NAND, NOR, OR and AND
+
 def activate(weights, pattern):
     sum = weights[len(weights)-1]*1.0
     for index, element in enumerate(pattern):
         sum += weights[index]*element
     return sum
 def updateWeights(inputSize, weights, pattern, expected, output, learningRate):
-    #print inputSize, weights, pattern, expected, output, learningRate
     for index in range(inputSize):
         weights[index] += learningRate*(expected-output)*pattern[index]
     weights[inputSize] += learningRate*(expected-output)*1.0
@@ -16,18 +15,16 @@ def getOutput(weights, pattern):
     return 1.0 if activation >= 0 else 0.0
 def train(weights, trainInput, trainExpected, inputSize, epochs, learningRate):
     for epoch in range(epochs):
-        print "Epoch #"+str(epoch)
+        print("Epoch #"+str(epoch))
         error = 0.0
-        print(trainInput)
         for i, pattern in enumerate(trainInput):
             pattern = pattern.astype(float)
             output = getOutput(weights, pattern)
             expected = float(trainExpected[i])
             error += np.absolute(output - expected)
-            print(inputSize)
             weights = updateWeights(inputSize, weights, pattern, expected, output, learningRate)
-        print "Weights",weights
-        print "Error rate :",error
+        print("Weights",weights)
+        print("Error rate :",error)
     return weights
 def test(weights, testInput, testExpected, learningRate):
     accuracy = 0

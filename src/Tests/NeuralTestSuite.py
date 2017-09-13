@@ -11,7 +11,7 @@ class TestNeuralAlgorithms:
         #algorithm configuration
         trainData = [[1,0,1],[0,1,1], [1,0,1], [1,1,0]]
         inputSize=2
-        epochs=20000
+        epochs=20
         learningRate=0.01
 
         weights, accuracy = perceptron(trainData, inputSize, epochs, learningRate)
