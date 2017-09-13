@@ -4,7 +4,6 @@ def oneMax(temp):
     return temp.count('1')
 '''In this bit flip mutation, we select one or more random bits and flip them.
 This is used for binary encoded GAs.
-https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_mutation.htm
 '''
 def bitFlip(bitstring, numOfBits, popMutation):
     newBitString = bitstring
