@@ -10,7 +10,7 @@ def getPopulation(numOfBits, popSize):
         temp = ''.join( '1' if random.random() < 0.5 else '0' for i in range(numOfBits))
         population[i] = {"bitstring":temp,"fitness":oneMax(temp)}
     return population
-def reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation):
+def reproduce(strategis, numOfBits, selected, popSize, popCrossOver, popMutation):
     children = [None]*popSize
     child = {}
     for index, parent1 in enumerate(selected):
@@ -26,16 +26,17 @@ def reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation):
         child["fitness"] = oneMax(child["bitstring"])
         children[index] = child
     return children
-def geneticAlgorithm(strategis,maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
+def geneticAlgorithm(strategis, maxNoGenes, numOfBits, popSize, popCrossOver, popMutation):
     population = getPopulation(numOfBits, popSize)
     best = sorted(population, key = lambda x: x['fitness'], reverse=True)[0]
-    selected = [eval(strategis[0])(population, popSize) for j in range(popSize)]
+    selectedSUS = [eval(strategis[0])(population, popSize) for j in range(popSize)]
     for i in range(maxNoGenes):
         children = 0
         if strategis[0] == 'stochasticUniversalSampling':
-            children = reproduce(strategis,numOfBits,selected[i], popSize, popCrossOver, popMutation)
+            children = reproduce(strategis,numOfBits,selectedSUS[i], popSize, popCrossOver, popMutation)
         else:
-            children = reproduce(strategis,numOfBits,selected, popSize, popCrossOver, popMutation)
+            selected = [eval(strategis[0])(population, popSize) for j in range(popSize)]
+            children = reproduce(strategis, numOfBits, selected, popSize, popCrossOver, popMutation)
         bestFromChildren = sorted(children, key = lambda x: x['fitness'], reverse=True)[0]
         if bestFromChildren["fitness"] >= best['fitness']:
             best  = bestFromChildren
