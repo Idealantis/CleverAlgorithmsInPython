@@ -22,9 +22,18 @@ class TestNeuralAlgorithms:
         print("*"*30)
     def test_Backpropagation(self):
         from NeuralAlgorithms.Backpropagation import createBPN,trainBPN,predict
-        trainset = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]]
-        lrate = 0.5
-        epoch = 150
+        trainset = [[2.7810836,2.550537003,0],
+	                [1.465489372,2.362125076,0],
+	                [3.396561688,4.400293529,0],
+	                [1.38807019,1.850220317,0],
+	                [3.06407232,3.005305973,0],
+	                [7.627531214,2.759262235,1],
+	                [5.332441248,2.088626775,1],
+	                [6.922596716,1.77106367,1],
+	                [8.675418651,-0.242068655,1],
+	                [7.673756466,3.508563011,1]]
+        lrate = 0.6
+        epoch = 250
         nInputs = len(trainset[0]) - 1
         nOutputs = len(set([row[-1] for row in trainset]))
         network = createBPN(nInputs, 2, nOutputs)
@@ -32,7 +41,13 @@ class TestNeuralAlgorithms:
         for layer in network:
             print(layer)
         print('Complted the training')
-        testset = [[0,0,0],[0,1,1],[1,0,1]]
+        testset = [[2.7810836,2.550537003,0],
+	                [1.465489372,2.362125076,0],
+	                [3.396561688,4.400293529,0],
+	                [1.38807019,1.850220317,0],
+	                [3.06407232,3.005305973,0],
+	                [7.627531214,2.759262235,1],
+	                [5.332441248,2.088626775,1]]
         for row in testset:
             prediction = predict(network, row)
             print('Expected=%d, Got=%d' % (row[-1], prediction))
