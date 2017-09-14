@@ -9,10 +9,10 @@ class TestNeuralAlgorithms:
     def test_Perceptron(self):
         from NeuralAlgorithms.Perceptron import perceptron
         #algorithm configuration
-        trainData = [[1,0,1],[0,1,1], [1,0,1], [1,1,0]]
+        trainData = [[0,0,0],[0,1,1], [1,0,1], [1,1,1]]
         inputSize=2
         epochs=20
-        learningRate=0.01
+        learningRate=0.1
         weights, accuracy = perceptron(trainData, inputSize, epochs, learningRate)
         print("*"*30)
         print("")
