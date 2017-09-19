@@ -78,3 +78,27 @@ class BasinResult(object):
                 + divider + "\n"\
                 + divider + "\n"
         return final
+    def FormattedOutputForEolutionary(self, result):
+        '''
+        Outputs the input values for the basin function that minimizes the cost and also the optimal cost.
+        '''
+        name = self.Algorithm
+        divider = "*" * 20
+        inputsHeader = "Bit String"
+        input = result['bitstring']
+        basinHeader = "Fitness"
+        basinValue = result['fitness']
+        final = divider + "\n"\
+                + name + "\n"\
+                + divider + "\n"\
+                + divider + "\n"\
+                + inputsHeader + "\n"\
+                + divider + "\n"\
+                + input + "\n"\
+                + divider + "\n"\
+                + basinHeader + "\n"\
+                + divider + "\n"\
+                + str(basinValue) + "\n"\
+                + divider + "\n"\
+                + divider + "\n"
+        return final
