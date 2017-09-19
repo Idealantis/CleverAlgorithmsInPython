@@ -4,9 +4,9 @@ from random import random
 # Initialize a network
 def createBPN(nInputs, nHidden, nOutputs):
 	network = list()
-	hiddenLayer = [{'weights':[random() for i in range(nInputs + 1)]} for i in range(nHidden)]
+	hiddenLayer = [{'weights':[random() for i in range(nInputs + 1)]} for j in range(nHidden)]
 	network.append(hiddenLayer)
-	outputLayer = [{'weights':[random() for i in range(nHidden + 1)]} for i in range(nOutputs)]
+	outputLayer = [{'weights':[random() for i in range(nHidden + 1)]} for j in range(nOutputs)]
 	network.append(outputLayer)
 	return network
 # Calculate neuron activation for an input
